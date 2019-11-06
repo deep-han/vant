@@ -60,7 +60,7 @@ export default {
   data() {
     return {
       sms: '',
-      value: '',
+      value: 2,
       password: '',
       username: '',
       username2: '',

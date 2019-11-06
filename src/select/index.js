@@ -32,18 +32,15 @@ export default createComponent({
   data() {
     return {
       showSheet: false,
-      showValue: undefined,
     };
   },
 
-  watch: {
-    '$attrs.value': {
-      handler(value) {
-        const targetOption = this.options.find(item => item.value === value || item.name === value);
-        this.showValue = targetOption && targetOption.name;
-      },
-      immediate: true,
-    }
+  computed: {
+    showValue() {
+      const { value } = this.$attrs;
+      const targetOption = this.options.find(item => item.value === value || item.name === value);
+      return targetOption && targetOption.name;
+    },
   },
 
   methods: {
@@ -53,7 +50,6 @@ export default createComponent({
     },
 
     onSelect(item, index) {
-      this.showValue = item.name;
       this.$emit('input', item.value || item.name);
       this.$emit('select', item, index);
     },
