@@ -32,7 +32,18 @@ export default createComponent({
   data() {
     return {
       showSheet: false,
+      showValue: undefined,
     };
+  },
+
+  watch: {
+    '$attrs.value': {
+      handler(value) {
+        const targetOption = this.options.find(item => item.value === value || item.name === value);
+        this.showValue = targetOption && targetOption.name;
+      },
+      immediate: true,
+    }
   },
 
   methods: {
@@ -42,12 +53,12 @@ export default createComponent({
     },
 
     onSelect(item, index) {
-      this.$emit('input', item.name);
+      this.showValue = item.name;
+      this.$emit('input', item.value || item.name);
       this.$emit('select', item, index);
     },
 
-    triggle(value, $event) {
-      stopPropagation($event);
+    triggle(value) {
       this.showSheet = value;
     },
 
@@ -65,13 +76,15 @@ export default createComponent({
       <Field
         class={bem()}
         readonly={true}
-        onClick={($event) => this.triggle(true, $event)}
+        onClick={() => this.triggle(true)}
         {...{ attrs: this.$attrs }}
         {...{ listeners: this.$listeners }}
+        // 这个 value 必须在继承的 attrs 下面，为了 emit value，而显示 name
+        value={this.showValue}
       >
         {this.inheritSlots()}
         <ActionSheet
-          onClick={stopPropagation}
+          // onClick={stopPropagation}
           class={bem('options')}
           {...{ attrs: this.sheetAttrs }}
           onCancel={this.onCancel}
