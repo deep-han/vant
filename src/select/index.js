@@ -36,8 +36,8 @@ export default createComponent({
   },
 
   methods: {
-    onCancel(event) {
-      event.stopPropagation();
+    onCancel($event) {
+      stopPropagation($event);
       this.$emit('cancel');
     },
 
@@ -47,7 +47,7 @@ export default createComponent({
     },
 
     triggle(value, $event) {
-      $event && $event.stopPropagation();
+      stopPropagation($event);
       this.showSheet = value;
     },
 
