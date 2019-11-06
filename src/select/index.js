@@ -84,7 +84,6 @@ export default createComponent({
       >
         {this.inheritSlots()}
         <ActionSheet
-          // onClick={stopPropagation}
           class={bem('options')}
           {...{ attrs: this.sheetAttrs }}
           onCancel={this.onCancel}
